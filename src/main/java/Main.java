@@ -17,8 +17,10 @@ public class Main {
 
         Media movie3 = new Movie("Listy do M cz. 5");
         Media song2 = new Song("Twój ból jest lepszy niż mój", "Kazik");
+        Media movie4 = new Movie("Scary movie 5");
         Playlist playlist2 = new Playlist();
         playlist2.add(movie3);
+        playlist2.add(movie4);
         playlist2.add(song2);
         playlist2.setPlayMode(PlayMode.NORMAL);
 
