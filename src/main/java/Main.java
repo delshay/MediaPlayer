@@ -2,7 +2,8 @@ import mediatype.Media;
 import mediatype.Movie;
 import mediatype.Playlist;
 import mediatype.Song;
-import playmode.PlayMode;
+
+import static playmode.PlayMode.*;
 
 public class Main {
 
@@ -22,11 +23,11 @@ public class Main {
         playlist2.add(movie3);
         playlist2.add(movie4);
         playlist2.add(song2);
-        playlist2.setPlayMode(PlayMode.NORMAL);
+        playlist2.setPlayMode(NORMAL);
 
         playlist.add(playlist2);
 
-        playlist.setPlayMode(PlayMode.SHUFFLE);
+        playlist.setPlayMode(SHUFFLE);
         Media song3 = new Song("Koniec", "Elektryczne Gitary");
         playlist.add(song3);
         playlist.play();
