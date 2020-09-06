@@ -1,6 +1,6 @@
 package mediatype;
 
-public interface Media {
+public interface Playable {
 
     void play();
 }

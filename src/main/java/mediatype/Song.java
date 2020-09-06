@@ -1,6 +1,6 @@
 package mediatype;
 
-public class Song implements Media {
+public class Song implements Playable {
 
     private String artist;
     private String title;

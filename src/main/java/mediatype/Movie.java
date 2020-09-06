@@ -1,6 +1,6 @@
 package mediatype;
 
-public class Movie implements Media {
+public class Movie implements Playable {
 
     private String title;
 

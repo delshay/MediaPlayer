@@ -1,76 +1,46 @@
 package mediatype;
 
 import playmode.PlayMode;
+import java.util.Collections;
 import java.util.LinkedList;
-import java.util.Random;
 
-public class Playlist {
+public class Playlist implements Playable {
 
-    private LinkedList<Object> playlist = new LinkedList<>();
-    private PlayMode playMode = PlayMode.NORMAL;
+    private final int MAX_REPEAT_LOOPS = 10;
 
-    public void add(Object media) {
+    private LinkedList<Playable> playlist = new LinkedList<>();
+    private PlayMode playMode;
+
+    public Playlist(PlayMode playMode) {
+        this.playMode = playMode;
+    }
+
+    public void add(Playable media) {
         this.playlist.add(media);
     }
 
-    public void setPlayMode(PlayMode playMode) {
+    public void setPlaymode(PlayMode playMode) {
         this.playMode = playMode;
     }
 
     public void play() {
-        switch (playMode) {
+        switch (this.playMode) {
             case NORMAL -> {
-                for (int i = 0; i < playlist.size(); i++) {
-                    if (playlist.get(i) instanceof Song) {
-                        ((Song) playlist.get(i)).play();
-                    }
-                    if (playlist.get(i) instanceof Movie) {
-                        ((Movie) playlist.get(i)).play();
-                    }
-                    if (playlist.get(i) instanceof Playlist) {
-                        ((Playlist) playlist.get(i)).play();
-                    }
-                }
+                this.playlist.stream()
+                        .forEach(Playable::play);
             }
             case SHUFFLE -> {
-                LinkedList<Object> shufflePlaylist = playlist;
-                int trackNumber = getRnFromRange(shufflePlaylist.size() - 1);
-                while (shufflePlaylist.size() > 0) {
-                    if (shufflePlaylist.get(trackNumber) instanceof Song) {
-                        ((Song) shufflePlaylist.get(trackNumber)).play();
-                    }
-                    if (shufflePlaylist.get(trackNumber) instanceof Movie) {
-                        ((Movie) shufflePlaylist.get(trackNumber)).play();
-                    }
-                    if (shufflePlaylist.get(trackNumber) instanceof Playlist) {
-                        ((Playlist) shufflePlaylist.get(trackNumber)).play();
-                    }
-                    shufflePlaylist.remove(trackNumber);
-                    if (trackNumber > 0) {
-                        trackNumber = getRnFromRange(shufflePlaylist.size() - 1);
-                    }
-                }
+                LinkedList<Playable> shufflePlaylist = new LinkedList<>(this.playlist);
+                Collections.shuffle(shufflePlaylist);
+                shufflePlaylist.stream()
+                        .forEach(Playable::play);
             }
             case REPEAT_ALL -> {
-                for (int repeat = 0; repeat < 5; repeat++) {
-                    for (int i = 0; i < playlist.size(); i++) {
-                        if (playlist.get(i) instanceof Song) {
-                            ((Song) playlist.get(i)).play();
-                        }
-                        if (playlist.get(i) instanceof Movie) {
-                            ((Movie) playlist.get(i)).play();
-                        }
-                        if (playlist.get(i) instanceof Playlist) {
-                            ((Playlist) playlist.get(i)).play();
-                        }
-                    }
+                for (int i = 0; i < MAX_REPEAT_LOOPS; i++) {
+                    this.playlist.stream()
+                            .forEach(Playable::play);
                 }
             }
         }
-    }
-
-    private static int getRnFromRange(int maxValue) {
-        Random rand = new Random();
-        return rand.nextInt((maxValue + 1));
     }
 }
